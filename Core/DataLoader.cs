@@ -7,29 +7,43 @@ namespace SaveData.Core
 {
     public static class DataLoader
     {
+        /// <summary>
+        /// Load data by file name and type.
+        /// </summary>
+        /// <param name="_saveFileName"> File name. </param>
+        /// <typeparam name="T"> Data type. </typeparam>
+        /// <returns> Returns loaded data or creates new default. </returns>
         public static T GetData<T>(string _saveFileName)
         {
             if (TryLoadData(_saveFileName, out T _data))
                 return _data;
 
-            T _newData = Activator.CreateInstance<T>();
-            DataSaver.SaveData(_newData);
-            return _newData;
+            return CreateDefaultInstance<T>();
         }
 
+        /// <summary>
+        /// Load data by its type name.
+        /// </summary>
+        /// <typeparam name="T"> Data type. </typeparam>
+        /// <returns> Returns loaded data or creates new default. </returns>
         public static T GetData<T>()
         {
             if (TryLoadData(typeof(T).Name, out T _data))
                 return _data;
 
-            T _newData = Activator.CreateInstance<T>();
-            DataSaver.SaveData(_newData);
-            return _newData;
+            return CreateDefaultInstance<T>();
         }
-
-        private static bool TryLoadData<T>(string _name, out T _data)
+        
+        /// <summary>
+        /// Try load data by file name and type.
+        /// </summary>
+        /// <param name="_saveFileName"> Name of save file. </param>
+        /// <param name="_data"> Out data. </param>
+        /// <typeparam name="T"> Data type </typeparam>
+        /// <returns> Returns true if data if found or false if not. </returns>
+        private static bool TryLoadData<T>(string _saveFileName, out T _data)
         {
-            string _path = Application.persistentDataPath + _name;
+            string _path = Application.persistentDataPath + _saveFileName;
 
             _data = default;
 
@@ -42,6 +56,18 @@ namespace SaveData.Core
             _stream.Close();
 
             return true;
+        }
+
+        /// <summary>
+        /// Creates default instance of data type.
+        /// </summary>
+        /// <typeparam name="T"> Data type. </typeparam>
+        /// <returns> Returns created data. </returns>
+        private static T CreateDefaultInstance<T>()
+        {
+            T _newData = Activator.CreateInstance<T>();
+            DataSaver.SaveData(_newData);
+            return _newData;
         }
     }
 }
