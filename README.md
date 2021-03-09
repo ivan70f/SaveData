@@ -4,7 +4,7 @@ Easy manage of save data in unity. Create your own data types and load/save it i
 Quick guide:
 
 1. Create data type. Dont forget to make class serializable!
-```
+```csharp
 [Serializable]
    public class CheckData
    {
@@ -18,7 +18,7 @@ Quick guide:
 ```
 
 2. Create data and save it.
-```
+```csharp
 CheckData _data = new CheckData();
 _data.a = 128;
 
@@ -33,7 +33,7 @@ DataSaver.SaveData(_data, "fileName");
 ```
 
 3. Load data
-```
+```csharp
 DataLoader.GetData<CheckData>();
 
 // Or if you save files by name
