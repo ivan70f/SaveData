@@ -5,7 +5,7 @@ Quick guide:
 
 1. Create data type. Dont forget to make class serializable!
 ```csharp
-[Serializable]
+   [Serializable]
    public class CheckData
    {
        public int a;
